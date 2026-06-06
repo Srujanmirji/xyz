@@ -53,9 +53,22 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
   return <>{children}</>;
 };
 
+import { motion, useScroll, useSpring } from 'framer-motion';
+
 const AppRoutes: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[9999]" 
+        style={{ scaleX }} 
+      />
       <Header />
       <div className="flex-grow">
         <Routes>

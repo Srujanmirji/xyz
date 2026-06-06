@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import { PropertyCard, type Property } from '../components/PropertyCard';
 
@@ -52,16 +53,29 @@ export const LandingPage: React.FC = () => {
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-gutter w-full mt-20">
           <div className="max-w-2xl">
-            <h1 className="font-headline-xl text-headline-xl mb-stack-md text-on-background">
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="font-headline-xl text-headline-xl mb-stack-md text-on-background"
+            >
               Find the Perfect Place to Call Home
-            </h1>
-            <p className="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg">
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg"
+            >
               Discover curated listings of exceptional residences, from minimalist urban lofts to sprawling coastal villas.
-            </p>
+            </motion.p>
             
             {/* Search Bar */}
-            <form
+            <motion.form
               onSubmit={handleSearch}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="glass-effect p-2 rounded-xl shadow-lg border border-outline-variant/30 flex flex-col md:flex-row gap-2 max-w-3xl"
             >
               <div className="flex-1 px-4 py-3 border-b md:border-b-0 md:border-r border-outline-variant/20 flex items-center gap-3">
@@ -104,13 +118,19 @@ export const LandingPage: React.FC = () => {
               >
                 Search
               </button>
-            </form>
+            </motion.form>
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="py-stack-lg bg-surface-container-low border-b border-outline-variant/10">
+      <motion.section 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="py-stack-lg bg-surface-container-low border-b border-outline-variant/10"
+      >
         <div className="max-w-container-max mx-auto px-gutter">
           <div className="flex flex-wrap justify-center gap-stack-md md:gap-stack-lg">
             <Link to="/properties?type=Apartment" className="group flex flex-col items-center gap-2">
@@ -147,14 +167,20 @@ export const LandingPage: React.FC = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Featured Properties */}
-      <section className="py-stack-lg bg-background">
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="py-stack-lg bg-background"
+      >
         <div className="max-w-container-max mx-auto px-gutter">
           <div className="flex justify-between items-end mb-stack-lg">
             <div>
-              <h2 className="font-headline-lg text-headline-lg text-on-background animate-fade-in">
+              <h2 className="font-headline-lg text-headline-lg text-on-background">
                 Featured Properties
               </h2>
               <p className="font-body-md text-body-md text-on-surface-variant">
@@ -187,13 +213,24 @@ export const LandingPage: React.FC = () => {
             </div>
           )}
         </div>
-      </section>
+      </motion.section>
 
       {/* Why Choose Us */}
-      <section className="py-stack-lg bg-surface-container-lowest border-t border-b border-outline-variant/20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="py-stack-lg bg-surface-container-lowest border-t border-b border-outline-variant/20"
+      >
         <div className="max-w-container-max mx-auto px-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -45 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
               <h2 className="font-headline-lg text-headline-lg mb-stack-md text-on-background">
                 Why Choose XYZ Homes
               </h2>
@@ -241,8 +278,14 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden shadow-xl border border-outline-variant/10">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: 45 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative rounded-2xl overflow-hidden shadow-xl border border-outline-variant/10"
+            >
               <img
                 className="w-full h-full object-cover min-h-[400px]"
                 alt="XYZ Homes Office Meeting"
@@ -252,13 +295,19 @@ export const LandingPage: React.FC = () => {
                 <p className="font-headline-lg text-headline-lg text-primary">98%</p>
                 <p className="font-label-md text-label-md text-on-surface-variant">Customer Satisfaction</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Customer Reviews */}
-      <section className="py-stack-lg bg-background">
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="py-stack-lg bg-background"
+      >
         <div className="max-w-container-max mx-auto px-gutter">
           <div className="text-center mb-stack-lg">
             <h2 className="font-headline-lg text-headline-lg text-on-background">What Our Clients Say</h2>
@@ -268,7 +317,7 @@ export const LandingPage: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-surface-container-low p-8 rounded-xl border border-outline-variant/20 shadow-sm transition-standard hover:translate-y-[-4px]">
-              <div className="flex text-tertiary-container text-tertiary mb-4">
+              <div className="flex text-tertiary mb-4">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 ))}
@@ -322,7 +371,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };
