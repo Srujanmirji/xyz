@@ -83,6 +83,16 @@
   body {
     @apply bg-background text-on-background font-geist antialiased selection:bg-primary-container selection:text-on-primary-container;
   }
+
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--outline)) !important;
+    opacity: 0.85 !important;
+  }
+
+  .dark input::placeholder, .dark textarea::placeholder {
+    color: hsl(var(--on-surface-variant) / 0.65) !important;
+    opacity: 1 !important;
+  }
 }
 
 .material-symbols-outlined {

@@ -32,34 +32,34 @@ export const Footer: React.FC = () => {
       {/* 1. Integrated CTA Section */}
       {showCTA && (
         <div className="max-w-container-max mx-auto px-gutter py-8 relative z-10">
-          <div className="relative overflow-hidden bg-gradient-to-r from-primary to-primary-container text-on-primary-container rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-2xl border border-primary/20">
+          <div className="relative overflow-hidden bg-gradient-to-r from-primary to-primary-container dark:from-surface-container dark:to-surface-container-high text-on-primary-container dark:text-on-surface rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-2xl border border-primary/20 dark:border-outline-variant/30">
             {/* Design elements */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-60 h-60 bg-primary-container/20 rounded-full blur-2xl -ml-20 -mb-20 pointer-events-none"></div>
             
             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
               <div className="text-center lg:text-left max-w-2xl space-y-3">
-                <span className="bg-white/10 text-white text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-full border border-white/10">
+                <span className="bg-white/10 dark:bg-primary/20 text-white dark:text-primary text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-full border border-white/10 dark:border-primary/20">
                   Ready to Start Your Journey?
                 </span>
-                <h2 className="font-headline-lg text-[26px] md:text-[34px] font-bold text-white leading-tight">
+                <h2 className="font-headline-lg text-[26px] md:text-[34px] font-bold text-white dark:text-on-surface leading-tight">
                   Find Your Next Luxury Address
                 </h2>
-                <p className="font-body-md text-sm md:text-base text-white/80 max-w-lg leading-relaxed">
+                <p className="font-body-md text-sm md:text-base text-white/80 dark:text-on-surface-variant max-w-lg leading-relaxed">
                   Our advisor network is standing by to help you schedule private visits, analyze custom mortgage terms, or sell your property.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto shrink-0 justify-center">
                 <button
                   onClick={() => navigate('/properties')}
-                  className="bg-white text-primary hover:bg-surface-bright font-bold px-8 py-3.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-sm flex items-center justify-center gap-2"
+                  className="bg-white dark:bg-primary text-primary dark:text-on-primary hover:bg-surface-bright dark:hover:bg-primary-container font-bold px-8 py-3.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-sm flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">search</span>
                   Browse Listings
                 </button>
                 <button
                   onClick={() => navigate('/contact')}
-                  className="bg-transparent border border-white/30 hover:border-white text-white font-bold px-8 py-3.5 rounded-lg transition-all duration-300 hover:bg-white/10 active:scale-[0.98] text-sm flex items-center justify-center gap-2"
+                  className="bg-transparent border border-white/30 dark:border-outline hover:border-white dark:hover:border-on-surface text-white dark:text-on-surface font-bold px-8 py-3.5 rounded-lg transition-all duration-300 hover:bg-white/10 dark:hover:bg-surface-container-high/40 active:scale-[0.98] text-sm flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">mail</span>
                   Contact an Agent
