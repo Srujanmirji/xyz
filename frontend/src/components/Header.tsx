@@ -55,12 +55,6 @@ export const Header: React.FC = () => {
             >
               Sell
             </Link>
-            <Link
-              to="/contact"
-              className="font-body-md text-body-md text-secondary hover:text-primary transition-colors"
-            >
-              Agents
-            </Link>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -103,23 +97,34 @@ export const Header: React.FC = () => {
                   <Link
                     to={dashboardRoute()}
                     onClick={() => setDropdownOpen(false)}
-                    className="block px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
                   >
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>dashboard</span>
                     Dashboard
+                  </Link>
+                  <Link
+                    to="/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>person</span>
+                    Profile
                   </Link>
                   {user?.role === 'AGENT' && (
                     <Link
                       to="/agent-dashboard?tab=listings"
                       onClick={() => setDropdownOpen(false)}
-                      className="block px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
                     >
+                      <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add_home</span>
                       Create Property
                     </Link>
                   )}
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-error hover:bg-surface-container-low transition-colors"
+                    className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-error hover:bg-surface-container-low transition-colors"
                   >
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>logout</span>
                     Log Out
                   </button>
                 </div>

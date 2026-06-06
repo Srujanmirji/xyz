@@ -5,6 +5,7 @@ import {
   googleLogin,
   getProfile,
   updateProfile,
+  completeOnboarding,
   forgotPassword,
   resetPassword,
 } from '../controllers/auth.controller';
@@ -45,6 +46,7 @@ router.post('/auth/forgot-password', forgotPassword);
 router.post('/auth/reset-password', resetPassword);
 router.get('/auth/profile', authenticate, getProfile);
 router.put('/auth/profile', authenticate, updateProfile);
+router.post('/auth/onboarding', authenticate, completeOnboarding);
 
 // Property routes
 router.post('/properties', authenticate, authorizeRoles(Role.AGENT, Role.ADMIN), createProperty);

@@ -21,6 +21,8 @@ import {
 import { UserDashboard } from './pages/Dashboards/UserDashboard';
 import { AgentDashboard } from './pages/Dashboards/AgentDashboard';
 import { AdminDashboard } from './pages/Dashboards/AdminDashboard';
+import { OnboardingPage } from './pages/OnboardingPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 const queryClient = new QueryClient();
 
@@ -90,6 +92,24 @@ const AppRoutes: React.FC = () => {
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
+
+          {/* Onboarding & Profile */}
+          <Route
+            path="/onboarding"
+            element={
+              <ProtectedRoute>
+                <OnboardingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Role Protected Dashboards */}
           <Route

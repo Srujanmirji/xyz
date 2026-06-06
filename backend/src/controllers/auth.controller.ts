@@ -168,6 +168,10 @@ export const getProfile = async (req: AuthRequest, res: Response, next: NextFunc
         email: true,
         role: true,
         avatar: true,
+        phone: true,
+        bio: true,
+        location: true,
+        onboardingCompleted: true,
         createdAt: true,
       },
     });
@@ -184,13 +188,16 @@ export const updateProfile = async (req: AuthRequest, res: Response, next: NextF
       return res.status(401).json({ success: false, message: 'Not authenticated' });
     }
 
-    const { name, avatar } = req.body;
+    const { name, avatar, phone, bio, location } = req.body;
 
     const updatedUser = await prisma.user.update({
       where: { id: req.user.id },
       data: {
         name: name || undefined,
         avatar: avatar || undefined,
+        phone: phone !== undefined ? phone : undefined,
+        bio: bio !== undefined ? bio : undefined,
+        location: location !== undefined ? location : undefined,
       },
       select: {
         id: true,
@@ -198,12 +205,56 @@ export const updateProfile = async (req: AuthRequest, res: Response, next: NextF
         email: true,
         role: true,
         avatar: true,
+        phone: true,
+        bio: true,
+        location: true,
+        onboardingCompleted: true,
       },
     });
 
     res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
+      data: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const completeOnboarding = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: 'Not authenticated' });
+    }
+
+    const { avatar, phone, bio, location } = req.body;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        avatar: avatar || undefined,
+        phone: phone || undefined,
+        bio: bio || undefined,
+        location: location || undefined,
+        onboardingCompleted: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true,
+        phone: true,
+        bio: true,
+        location: true,
+        onboardingCompleted: true,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Onboarding completed successfully',
       data: updatedUser,
     });
   } catch (error) {

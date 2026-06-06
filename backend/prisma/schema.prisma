@@ -21,20 +21,24 @@ enum PropertyStatus {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  name          String
-  email         String         @unique
-  password      String
-  avatar        String?
-  role          Role           @default(USER)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  properties    Property[]     @relation("AgentProperties")
-  bookings      Booking[]
-  favorites     Favorite[]
-  reviews       Review[]
-  notifications Notification[]
-  inquiries     Inquiry[]
+  id                  String         @id @default(uuid())
+  name                String
+  email               String         @unique
+  password            String
+  avatar              String?
+  phone               String?
+  bio                 String?
+  location            String?
+  onboardingCompleted Boolean        @default(false)
+  role                Role           @default(USER)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  properties          Property[]     @relation("AgentProperties")
+  bookings            Booking[]
+  favorites           Favorite[]
+  reviews             Review[]
+  notifications       Notification[]
+  inquiries           Inquiry[]
 }
 
 model Property {

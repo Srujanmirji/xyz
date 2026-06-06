@@ -143,8 +143,7 @@ export const RegisterPage: React.FC = () => {
     try {
       const data = await registerUser(name, email, password, role);
       if (data.success) {
-        if (role === 'AGENT') navigate('/agent-dashboard');
-        else navigate('/dashboard');
+        navigate('/onboarding');
       }
     } catch (err: any) {
       setError(err || 'Failed to register');

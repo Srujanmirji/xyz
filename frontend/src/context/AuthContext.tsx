@@ -7,6 +7,11 @@ export interface User {
   email: string;
   role: 'ADMIN' | 'AGENT' | 'USER';
   avatar?: string;
+  phone?: string;
+  bio?: string;
+  location?: string;
+  onboardingCompleted?: boolean;
+  createdAt?: string;
 }
 
 interface AuthContextType {
@@ -18,7 +23,8 @@ interface AuthContextType {
   googleLogin: (payload: { email: string; name: string; avatar?: string }) => Promise<any>;
   registerUser: (name: string, email: string, password: string, role?: string) => Promise<any>;
   logout: () => void;
-  updateProfile: (name: string, avatar: string) => Promise<any>;
+  updateProfile: (data: { name?: string; avatar?: string; phone?: string; bio?: string; location?: string }) => Promise<any>;
+  completeOnboarding: (data: { avatar?: string; phone?: string; bio?: string; location?: string }) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -131,9 +137,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     delete axios.defaults.headers.common['Authorization'];
   };
 
-  const updateProfile = async (name: string, avatar: string) => {
+  const updateProfile = async (data: { name?: string; avatar?: string; phone?: string; bio?: string; location?: string }) => {
     try {
-      const res = await axios.put('/auth/profile', { name, avatar });
+      const res = await axios.put('/auth/profile', data);
       if (res.data.success) {
         setUser(res.data.data);
         localStorage.setItem('user', JSON.stringify(res.data.data));
@@ -141,6 +147,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch (error: any) {
       throw error.response?.data?.message || 'Update profile failed';
+    }
+  };
+
+  const completeOnboarding = async (data: { avatar?: string; phone?: string; bio?: string; location?: string }) => {
+    try {
+      const res = await axios.post('/auth/onboarding', data);
+      if (res.data.success) {
+        setUser(res.data.data);
+        localStorage.setItem('user', JSON.stringify(res.data.data));
+        return res.data;
+      }
+    } catch (error: any) {
+      throw error.response?.data?.message || 'Onboarding failed';
     }
   };
 
@@ -156,6 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         registerUser,
         logout,
         updateProfile,
+        completeOnboarding,
       }}
     >
       {children}

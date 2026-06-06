@@ -87,7 +87,7 @@ export const UserDashboard: React.FC = () => {
     e.preventDefault();
     setEditSuccess('');
     try {
-      await updateProfile(name, avatar);
+      await updateProfile({ name, avatar });
       setEditSuccess('Profile details updated successfully.');
     } catch (error) {
       console.error('Failed to update user profile', error);
