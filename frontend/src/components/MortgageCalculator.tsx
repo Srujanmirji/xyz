@@ -83,7 +83,7 @@ export const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ property
           </h4>
           <div>
             <label className="block text-xs font-label-md text-on-surface-variant mb-1">
-              Property Price ($)
+              Property Price (₹)
             </label>
             <input
               type="number"
@@ -95,7 +95,7 @@ export const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ property
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-label-md text-on-surface-variant mb-1">
-                Down Payment ($)
+                Down Payment (₹)
               </label>
               <input
                 type="number"
@@ -136,16 +136,16 @@ export const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ property
             <div className="flex justify-between items-center">
               <span className="text-sm text-on-surface-variant">Monthly Payment</span>
               <span className="font-bold text-primary text-xl">
-                ${monthlyPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                ₹{monthlyPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between items-center text-xs text-on-surface-variant border-t border-outline-variant/10 pt-2">
               <span>Total Interest</span>
-              <span>${totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+              <span>₹{totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </div>
             <div className="flex justify-between items-center text-xs text-on-surface-variant">
               <span>Total Cost</span>
-              <span>${totalPayment.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+              <span>₹{totalPayment.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@ export const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ property
           </h4>
           <div>
             <label className="block text-xs font-label-md text-on-surface-variant mb-1">
-              Estimated Monthly Rent ($)
+              Estimated Monthly Rent (₹)
             </label>
             <input
               type="number"
@@ -168,7 +168,7 @@ export const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ property
           </div>
           <div>
             <label className="block text-xs font-label-md text-on-surface-variant mb-1">
-              Annual Operating Expenses ($)
+              Annual Operating Expenses (₹)
             </label>
             <input
               type="number"

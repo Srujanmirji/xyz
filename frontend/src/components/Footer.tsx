@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
     <footer className="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/30 w-full relative mt-auto">
       {/* 1. Integrated CTA Section */}
       {showCTA && (
-        <div className="max-w-container-max mx-auto px-gutter -translate-y-12 relative z-10 mb-[-24px]">
+        <div className="max-w-container-max mx-auto px-gutter py-8 relative z-10">
           <div className="relative overflow-hidden bg-gradient-to-r from-primary to-primary-container text-on-primary-container rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-2xl border border-primary/20">
             {/* Design elements */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>

@@ -28,33 +28,40 @@ export const Header: React.FC = () => {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-all duration-200">
-      <nav className="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
-        <div className="flex items-center gap-8">
+      <nav className="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto relative">
+        <div className="flex items-center">
           <Link to="/" className="font-headline-md text-headline-md font-bold text-primary">
             XYZ Homes
           </Link>
-          <div className="hidden md:flex items-center gap-6">
+        </div>
+        <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             <Link
-              to="/properties?type=Apartment"
+              to="/buy"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className={`font-body-md text-body-md transition-colors ${
-                isActive('/properties') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:text-primary'
+                isActive('/buy') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:text-primary'
               }`}
             >
               Buy
             </Link>
             <Link
-              to="/properties?type=House"
-              className="font-body-md text-body-md text-secondary hover:text-primary transition-colors"
+              to="/rent"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className={`font-body-md text-body-md transition-colors ${
+                isActive('/rent') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:text-primary'
+              }`}
             >
               Rent
             </Link>
             <Link
-              to="/properties"
-              className="font-body-md text-body-md text-secondary hover:text-primary transition-colors"
+              to="/sell"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className={`font-body-md text-body-md transition-colors ${
+                isActive('/sell') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:text-primary'
+              }`}
             >
               Sell
             </Link>
-          </div>
         </div>
         <div className="flex items-center gap-4">
           {/* Theme Toggle Button */}
@@ -69,11 +76,20 @@ export const Header: React.FC = () => {
           </button>
 
           {isAuthenticated ? (
-            <div className="relative">
+            <div className="flex items-center gap-2">
               <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 focus:outline-none"
+                onClick={() => navigate(dashboardRoute())}
+                className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-on-surface-variant relative"
+                title="Notifications"
               >
+                <span className="material-symbols-outlined">notifications</span>
+              </button>
+
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 focus:outline-none ml-2"
+                >
                 <img
                   src={
                     user?.avatar ||
@@ -119,6 +135,7 @@ export const Header: React.FC = () => {
                   </button>
                 </div>
               )}
+              </div>
             </div>
           ) : (
             <>

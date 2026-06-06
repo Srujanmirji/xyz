@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { PropertyCard, type Property } from '../components/PropertyCard';
 import { MapView } from '../components/MapView';
 
-export const PropertyListingPage: React.FC = () => {
+interface PropertyListingPageProps {
+  defaultListingType?: 'SALE' | 'RENT' | '';
+}
+
+export const PropertyListingPage: React.FC<PropertyListingPageProps> = ({ defaultListingType = '' }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [showMap, setShowMap] = useState(true); // Default to split-screen map search
 
   // Filters State
+  const [listingType, setListingType] = useState(searchParams.get('listingType') || defaultListingType);
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [city, setCity] = useState(searchParams.get('city') || '');
   const [type, setType] = useState(searchParams.get('type') || 'Property Type');
@@ -41,8 +46,8 @@ export const PropertyListingPage: React.FC = () => {
       ];
     }
     return [
-      { name: 'The Glass Bistro', distance: '0.3 miles', rating: '$$$' },
-      { name: 'Skywood Cafe & Bakery', distance: '0.5 miles', rating: '$$' },
+      { name: 'The Glass Bistro', distance: '0.3 miles', rating: '₹₹₹' },
+      { name: 'Skywood Cafe & Bakery', distance: '0.5 miles', rating: '₹₹' },
     ];
   };
 
@@ -58,6 +63,7 @@ export const PropertyListingPage: React.FC = () => {
       if (bedrooms) params.append('bedrooms', bedrooms);
       if (bathrooms) params.append('bathrooms', bathrooms);
       if (sortBy) params.append('sortBy', sortBy);
+      if (listingType) params.append('listingType', listingType);
 
       const res = await axios.get(`/properties?${params.toString()}`);
       if (res.data.success) {
@@ -89,6 +95,7 @@ export const PropertyListingPage: React.FC = () => {
     if (maxPrice) params.append('maxPrice', maxPrice);
     if (bedrooms) params.append('bedrooms', bedrooms);
     if (bathrooms) params.append('bathrooms', bathrooms);
+    if (listingType) params.append('listingType', listingType);
     setSearchParams(params);
   };
 
@@ -136,6 +143,15 @@ export const PropertyListingPage: React.FC = () => {
               <option>Villa</option>
               <option>House</option>
               <option>Commercial</option>
+            </select>
+            <select
+              value={listingType}
+              onChange={(e) => setListingType(e.target.value)}
+              className="bg-surface border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-background focus:ring-2 focus:ring-primary/20 focus:border-primary focus:outline-none"
+            >
+              <option value="">Any Listing Type</option>
+              <option value="SALE">For Sale</option>
+              <option value="RENT">For Rent</option>
             </select>
             <input
               type="number"
@@ -189,6 +205,42 @@ export const PropertyListingPage: React.FC = () => {
       <div className="flex-grow flex relative">
         {/* Left Side: Property Cards Grid */}
         <div className={`flex-1 px-gutter py-6 overflow-y-auto ${showMap ? 'max-w-xl lg:max-w-3xl' : 'max-w-container-max mx-auto'}`}>
+          {/* Landlord / Owner Call To Action Banner */}
+          {listingType === 'RENT' && (
+            <div className="mb-6 bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h4 className="font-bold text-on-background text-sm flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-primary text-[18px]">real_estate_agent</span>
+                  Landlord or Property Manager?
+                </h4>
+                <p className="text-xs text-on-surface-variant mt-0.5">List your rental property here to reach thousands of verified tenants.</p>
+              </div>
+              <Link
+                to="/rent/list"
+                className="bg-primary text-on-primary text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary-container active:scale-95 transition-all shadow-sm"
+              >
+                List a Rental
+              </Link>
+            </div>
+          )}
+          {listingType === 'SALE' && (
+            <div className="mb-6 bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h4 className="font-bold text-on-background text-sm flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-primary text-[18px]">sell</span>
+                  Property Owner?
+                </h4>
+                <p className="text-xs text-on-surface-variant mt-0.5">Sell your property fast with our premium guided listing workflow.</p>
+              </div>
+              <Link
+                to="/sell"
+                className="bg-primary text-on-primary text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary-container active:scale-95 transition-all shadow-sm"
+              >
+                Sell Property
+              </Link>
+            </div>
+          )}
+
           <div className="flex justify-between items-center mb-6">
             <p className="text-on-surface-variant text-sm">
               Found <span className="font-bold text-on-background">{properties.length}</span> properties

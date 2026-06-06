@@ -75,7 +75,7 @@ export const LoginPage: React.FC = () => {
             document.getElementById('google-signin-fallback')!,
             { theme: 'outline', size: 'large', width: 380 }
           );
-          document.getElementById('google-signin-fallback')?.querySelector('div[role="button"]')?.click();
+          (document.getElementById('google-signin-fallback')?.querySelector('div[role="button"]') as HTMLElement | null)?.click();
           setLoading(false);
         }
       });

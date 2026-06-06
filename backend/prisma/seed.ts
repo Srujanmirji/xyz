@@ -72,6 +72,7 @@ async function main() {
       bathrooms: 3,
       area: 3200,
       type: 'Villa',
+      listingType: 'SALE',
       status: PropertyStatus.APPROVED,
       featured: true,
       virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
@@ -100,6 +101,7 @@ async function main() {
       bathrooms: 4,
       area: 4100,
       type: 'Villa',
+      listingType: 'SALE',
       status: PropertyStatus.APPROVED,
       featured: true,
       virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
@@ -128,6 +130,7 @@ async function main() {
       bathrooms: 2,
       area: 2400,
       type: 'House',
+      listingType: 'SALE',
       status: PropertyStatus.APPROVED,
       featured: true,
       virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
@@ -156,6 +159,7 @@ async function main() {
       bathrooms: 3,
       area: 3200,
       type: 'Villa',
+      listingType: 'SALE',
       status: PropertyStatus.APPROVED,
       featured: false,
       virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
@@ -184,6 +188,7 @@ async function main() {
       bathrooms: 3.5,
       area: 2800,
       type: 'Apartment',
+      listingType: 'RENT',
       status: PropertyStatus.PENDING,
       featured: false,
       virtualTourUrl: null,
@@ -197,7 +202,94 @@ async function main() {
     }
   });
 
-  console.log('🏠 Seeded 5 properties.');
+  const p6 = await prisma.property.create({
+    data: {
+      title: 'Modern Loft',
+      description: 'A beautiful industrial-style loft in the city center with exposed brick walls, high ceilings, and large windows.',
+      price: 1200000,
+      address: '101 Artist Way',
+      city: 'New York',
+      state: 'NY',
+      country: 'US',
+      latitude: 40.7128,
+      longitude: -74.0060,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 1500,
+      type: 'Apartment',
+      listingType: 'RENT',
+      status: PropertyStatus.APPROVED,
+      featured: true,
+      virtualTourUrl: null,
+      amenities: ['Exposed Brick', 'High Ceilings', 'Rooftop Access', 'Fitness Center', 'Pet Friendly'],
+      agentId: agent.id,
+      images: {
+        create: [
+          { imageUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=800' }
+        ]
+      }
+    }
+  });
+
+  const p7 = await prisma.property.create({
+    data: {
+      title: 'Riverfront Condo',
+      description: 'Stunning 3-bedroom condo overlooking the river. Features an open floor plan, gourmet kitchen, and private balcony.',
+      price: 850000,
+      address: '22 River Road',
+      city: 'Chicago',
+      state: 'IL',
+      country: 'US',
+      latitude: 41.8781,
+      longitude: -87.6298,
+      bedrooms: 3,
+      bathrooms: 2.5,
+      area: 1800,
+      type: 'Apartment',
+      listingType: 'RENT',
+      status: PropertyStatus.APPROVED,
+      featured: false,
+      virtualTourUrl: null,
+      amenities: ['River View', 'Balcony', 'Pool', 'Gym', 'Parking'],
+      agentId: agent.id,
+      images: {
+        create: [
+          { imageUrl: 'https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&q=80&w=800' }
+        ]
+      }
+    }
+  });
+
+  const p8 = await prisma.property.create({
+    data: {
+      title: 'Cozy Studio',
+      description: 'Perfect for a first-time buyer! This cozy studio apartment is located in a quiet neighborhood with easy access to public transit.',
+      price: 350000,
+      address: '404 Elm St',
+      city: 'Seattle',
+      state: 'WA',
+      country: 'US',
+      latitude: 47.6062,
+      longitude: -122.3321,
+      bedrooms: 1,
+      bathrooms: 1,
+      area: 600,
+      type: 'Apartment',
+      listingType: 'RENT',
+      status: PropertyStatus.APPROVED,
+      featured: false,
+      virtualTourUrl: null,
+      amenities: ['Close to Transit', 'Hardwood Floors', 'Updated Kitchen', 'Laundry in Building'],
+      agentId: agent.id,
+      images: {
+        create: [
+          { imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800' }
+        ]
+      }
+    }
+  });
+
+  console.log('🏠 Seeded 8 properties.');
 
   // 4. Create Reviews
   await prisma.review.create({

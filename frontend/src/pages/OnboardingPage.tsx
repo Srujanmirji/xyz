@@ -81,8 +81,8 @@ export const OnboardingPage: React.FC = () => {
   };
 
   const formatBudget = (val: number) => {
-    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
-    return `$${(val / 1000).toFixed(0)}K`;
+    if (val >= 1000000) return `₹${(val / 1000000).toFixed(1)}M`;
+    return `₹${(val / 1000).toFixed(0)}K`;
   };
 
   return (
@@ -261,8 +261,8 @@ export const OnboardingPage: React.FC = () => {
                       className="w-full h-1.5 bg-surface-container rounded-full appearance-none cursor-pointer accent-primary"
                     />
                     <div className="flex justify-between mt-1">
-                      <span className="text-[10px] text-outline">$100K</span>
-                      <span className="text-[10px] text-outline">$5M+</span>
+                      <span className="text-[10px] text-outline">₹100K</span>
+                      <span className="text-[10px] text-outline">₹5M+</span>
                     </div>
                   </div>
 

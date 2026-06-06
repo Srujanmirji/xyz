@@ -399,6 +399,18 @@ export const PropertyDetailPage: React.FC = () => {
               </Link>
             </div>
 
+            {user?.id !== property.agent.id && (
+              <div className="space-y-2">
+                <Link
+                  to={`/dashboard?tab=messages&chatUser=${property.agent.id}`}
+                  className="w-full border border-primary text-primary py-3 rounded-lg text-center font-label-lg text-label-lg hover:bg-primary/5 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                >
+                  <span className="material-symbols-outlined">chat</span>
+                  Chat with Owner
+                </Link>
+              </div>
+            )}
+
             {/* Inquiries message block */}
             <div className="border-t border-outline-variant/20 pt-4 space-y-3">
               <h4 className="font-bold text-on-background text-sm">Contact Agent</h4>

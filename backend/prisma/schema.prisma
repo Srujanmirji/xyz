@@ -20,6 +20,11 @@ enum PropertyStatus {
   SOLD
 }
 
+enum ListingType {
+  SALE
+  RENT
+}
+
 model User {
   id                  String         @id @default(uuid())
   name                String
@@ -39,6 +44,8 @@ model User {
   reviews             Review[]
   notifications       Notification[]
   inquiries           Inquiry[]
+  sentMessages        Message[]      @relation("SentMessages")
+  receivedMessages    Message[]      @relation("ReceivedMessages")
 }
 
 model Property {
@@ -56,6 +63,7 @@ model Property {
   bathrooms      Int
   area           Int
   type           String
+  listingType    ListingType     @default(SALE)
   status         PropertyStatus  @default(PENDING)
   featured       Boolean         @default(false)
   virtualTourUrl String?
@@ -135,4 +143,14 @@ model Inquiry {
   message    String
   status     String    @default("NEW") // NEW, CONTACTED, RESOLVED
   createdAt  DateTime  @default(now())
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  senderId   String
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  content    String
+  createdAt  DateTime @default(now())
 }

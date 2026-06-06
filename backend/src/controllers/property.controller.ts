@@ -19,6 +19,7 @@ export const createProperty = async (req: AuthRequest, res: Response, next: Next
       bathrooms,
       area,
       type,
+      listingType,
       amenities,
       images,
       virtualTourUrl,
@@ -52,6 +53,7 @@ export const createProperty = async (req: AuthRequest, res: Response, next: Next
         bathrooms: bathrooms ? parseInt(bathrooms) : 0,
         area: area ? parseInt(area) : 0,
         type,
+        listingType: listingType || 'SALE',
         status,
         featured: featured === true || featured === 'true',
         virtualTourUrl: virtualTourUrl || null,
@@ -84,6 +86,7 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
       search,
       city,
       type,
+      listingType,
       minPrice,
       maxPrice,
       bedrooms,
@@ -125,6 +128,10 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
 
     if (type && type !== 'Property Type') {
       where.type = { equals: type as string, mode: 'insensitive' };
+    }
+
+    if (listingType) {
+      where.listingType = listingType;
     }
 
     if (minPrice || maxPrice) {
@@ -248,6 +255,7 @@ export const updateProperty = async (req: AuthRequest, res: Response, next: Next
       bathrooms,
       area,
       type,
+      listingType,
       status,
       amenities,
       images,
@@ -271,6 +279,7 @@ export const updateProperty = async (req: AuthRequest, res: Response, next: Next
         bathrooms: bathrooms ? parseInt(bathrooms) : undefined,
         area: area ? parseInt(area) : undefined,
         type: type || undefined,
+        listingType: listingType || undefined,
         status: status || undefined,
         featured: featured !== undefined ? featured === true || featured === 'true' : undefined,
         virtualTourUrl: virtualTourUrl || undefined,

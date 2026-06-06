@@ -33,6 +33,11 @@ import {
   createInquiry,
   getInquiries,
 } from '../controllers/dashboard.controller';
+import {
+  sendMessage,
+  getConversations,
+  getChatMessages,
+} from '../controllers/message.controller';
 import { authenticate, authorizeRoles } from '../middlewares/auth';
 import { Role } from '@prisma/client';
 
@@ -49,7 +54,7 @@ router.put('/auth/profile', authenticate, updateProfile);
 router.post('/auth/onboarding', authenticate, completeOnboarding);
 
 // Property routes
-router.post('/properties', authenticate, authorizeRoles(Role.AGENT, Role.ADMIN), createProperty);
+router.post('/properties', authenticate, authorizeRoles(Role.USER, Role.AGENT, Role.ADMIN), createProperty);
 router.get('/properties', getProperties);
 router.get('/properties/ai-recommendations', authenticate, getAIPredictions);
 router.get('/properties/favorites', authenticate, getFavorites);
@@ -70,6 +75,11 @@ router.patch('/bookings/:id/status', authenticate, updateBookingStatus);
 // Inquiries / Contacts
 router.post('/inquiries', createInquiry); // Guest allowed
 router.get('/inquiries', authenticate, getInquiries);
+
+// Message routes
+router.post('/messages', authenticate, sendMessage);
+router.get('/messages', authenticate, getConversations);
+router.get('/messages/chat/:otherUserId', authenticate, getChatMessages);
 
 // Dashboard & notification routes
 router.get('/dashboard/stats', authenticate, getDashboardStats);

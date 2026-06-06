@@ -86,10 +86,16 @@ export const getBookings = async (req: AuthRequest, res: Response, next: NextFun
         orderBy: { date: 'asc' },
       });
     } else {
-      // Regular user
+      // Regular user: can have both bookings they made and bookings on properties they listed
       bookings = await prisma.booking.findMany({
-        where: { userId },
+        where: {
+          OR: [
+            { userId },
+            { property: { agentId: userId } }
+          ]
+        },
         include: {
+          user: { select: { id: true, name: true, email: true, avatar: true } },
           property: {
             include: {
               images: true,

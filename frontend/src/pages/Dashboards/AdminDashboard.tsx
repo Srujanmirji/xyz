@@ -204,7 +204,7 @@ export const AdminDashboard: React.FC = () => {
                       <div
                         style={{ height: `${barHeight}%` }}
                         className="w-8 bg-primary/80 hover:bg-primary rounded-t transition-all"
-                        title={`Revenue: $${perf.revenue.toLocaleString()}`}
+                        title={`Revenue: ₹${perf.revenue.toLocaleString()}`}
                       />
                       <span className="text-xs font-bold font-geist text-on-surface-variant">{perf.month}</span>
                     </div>

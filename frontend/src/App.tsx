@@ -9,6 +9,8 @@ import { Footer } from './components/Footer';
 // Pages
 import { LandingPage } from './pages/LandingPage';
 import { PropertyListingPage } from './pages/PropertyListingPage';
+import { SellPage } from './pages/SellPage';
+import { RentPage } from './pages/RentPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
 import { BookingPage } from './pages/BookingPage';
 import { ContactPage } from './pages/ContactPage';
@@ -74,6 +76,10 @@ const AppRoutes: React.FC = () => {
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/buy" element={<PropertyListingPage key="buy" defaultListingType="SALE" />} />
+          <Route path="/rent" element={<PropertyListingPage key="rent" defaultListingType="RENT" />} />
+          <Route path="/rent/list" element={<RentPage />} />
+          <Route path="/sell" element={<SellPage />} />
           <Route path="/properties" element={<PropertyListingPage />} />
           <Route path="/properties/:id" element={<PropertyDetailPage />} />
           <Route

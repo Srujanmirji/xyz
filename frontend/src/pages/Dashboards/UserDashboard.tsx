@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { ChatInterface } from '../../components/ChatInterface';
 
 interface Booking {
   id: string;
   date: string;
   timeSlot: string;
   status: string;
-  property: { id: string; title: string; address: string };
+  userId: string;
+  message?: string;
+  user?: { id: string; name: string; email: string; avatar?: string };
+  property: { id: string; title: string; address: string; agentId: string };
 }
 
 interface SavedProperty {
@@ -31,18 +35,32 @@ interface Notification {
   createdAt: string;
 }
 
+interface Property {
+  id: string;
+  title: string;
+  price: number;
+  city: string;
+  type: string;
+  status: string;
+}
+
 export const UserDashboard: React.FC = () => {
   const { user, updateProfile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const defaultTab = (searchParams.get('tab') as any) || 'dashboard';
+  const chatUserId = searchParams.get('chatUser');
 
   // Selected tab
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'saved' | 'appointments' | 'notifications' | 'profile'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'saved' | 'appointments' | 'notifications' | 'profile' | 'listings' | 'messages'>(defaultTab);
 
   // Dashboard state
   const [metrics, setMetrics] = useState({ savedProperties: 0, upcomingTours: 0, unreadNotifications: 0, profileStrength: 60 });
   const [savedProperties, setSavedProperties] = useState<SavedProperty[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [myProperties, setMyProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Profile Edit fields
@@ -72,6 +90,12 @@ export const UserDashboard: React.FC = () => {
       if (notifRes.data.success) {
         setNotifications(notifRes.data.data);
       }
+
+      // Fetch user's own properties
+      const propRes = await axios.get('/properties?status=PENDING');
+      const propRes2 = await axios.get('/properties?status=APPROVED');
+      const combined = [...propRes.data.data, ...propRes2.data.data].filter((p: any) => p.agent?.id === user?.id);
+      setMyProperties(combined);
     } catch (error) {
       console.error('Error fetching user dashboard data', error);
     } finally {
@@ -119,6 +143,17 @@ export const UserDashboard: React.FC = () => {
     }
   };
 
+  const handleBookingAction = async (id: string, status: 'CONFIRMED' | 'REJECTED') => {
+    try {
+      const res = await axios.patch(`/bookings/${id}/status`, { status });
+      if (res.data.success) {
+        setBookings(bookings.map((b) => (b.id === id ? { ...b, status } : b)));
+      }
+    } catch (error) {
+      console.error('Failed to complete booking action', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="pt-24 max-w-container-max mx-auto px-gutter py-8 animate-pulse text-center">
@@ -160,6 +195,15 @@ export const UserDashboard: React.FC = () => {
             <span className="font-label-md text-label-md">Tours & Visits</span>
           </button>
           <button
+            onClick={() => setActiveTab('listings')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-bold transition-transform text-left ${
+              activeTab === 'listings' ? 'bg-secondary-container text-on-secondary-container' : 'text-secondary hover:bg-surface-container-low'
+            }`}
+          >
+            <span className="material-symbols-outlined">home_work</span>
+            <span className="font-label-md text-label-md">My Listings</span>
+          </button>
+          <button
             onClick={() => setActiveTab('notifications')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-bold transition-transform text-left ${
               activeTab === 'notifications' ? 'bg-secondary-container text-on-secondary-container' : 'text-secondary hover:bg-surface-container-low'
@@ -167,6 +211,15 @@ export const UserDashboard: React.FC = () => {
           >
             <span className="material-symbols-outlined">notifications</span>
             <span className="font-label-md text-label-md">Notifications ({metrics.unreadNotifications})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-bold transition-transform text-left ${
+              activeTab === 'messages' ? 'bg-secondary-container text-on-secondary-container' : 'text-secondary hover:bg-surface-container-low'
+            }`}
+          >
+            <span className="material-symbols-outlined">chat</span>
+            <span className="font-label-md text-label-md">Messages</span>
           </button>
           <button
             onClick={() => setActiveTab('profile')}
@@ -301,7 +354,7 @@ export const UserDashboard: React.FC = () => {
                     </span>
                     <span className="px-4 py-2 bg-surface border border-outline-variant/20 rounded-full text-xs text-on-surface-variant flex items-center gap-1">
                       <span className="material-symbols-outlined text-[16px]">history</span>
-                      Villa listings under $2.5M
+                      Villa listings under ₹2.5M
                     </span>
                   </div>
                 </div>
@@ -413,62 +466,161 @@ export const UserDashboard: React.FC = () => {
         )}
 
         {/* Tab 3: Appointments */}
-        {activeTab === 'appointments' && (
-          <div className="space-y-stack-md">
-            <h2 className="font-headline-lg text-headline-lg text-on-background">Your Viewing Calendar</h2>
-            <div className="bg-surface border border-outline-variant/30 rounded-xl p-6 shadow-sm max-w-3xl">
-              {bookings.length > 0 ? (
-                <div className="space-y-4">
-                  {bookings.map((book) => (
-                    <div
-                      key={book.id}
-                      className="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant/20 rounded-xl flex-wrap gap-4"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="bg-primary text-on-primary w-14 h-14 rounded-lg flex flex-col items-center justify-center shrink-0">
-                          <span className="text-[10px] font-bold uppercase">{new Date(book.date).toLocaleString(undefined, { month: 'short' })}</span>
-                          <span className="text-[20px] font-bold">{new Date(book.date).getDate()}</span>
+        {activeTab === 'appointments' && (() => {
+          const outgoingBookings = bookings.filter((b) => b.userId === user?.id);
+          const incomingBookings = bookings.filter((b) => b.userId !== user?.id);
+
+          return (
+            <div className="space-y-stack-lg max-w-4xl">
+              <div className="space-y-stack-md">
+                <h2 className="font-headline-lg text-headline-lg text-on-background">Your Viewing Calendar</h2>
+                
+                <h3 className="font-title-lg text-title-lg text-on-background mt-6 mb-3">Tours You Scheduled</h3>
+                <div className="bg-surface border border-outline-variant/30 rounded-xl p-6 shadow-sm">
+                  {outgoingBookings.length > 0 ? (
+                    <div className="space-y-4">
+                      {outgoingBookings.map((book) => (
+                        <div
+                          key={book.id}
+                          className="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant/20 rounded-xl flex-wrap gap-4"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="bg-primary text-on-primary w-14 h-14 rounded-lg flex flex-col items-center justify-center shrink-0">
+                              <span className="text-[10px] font-bold uppercase">{new Date(book.date).toLocaleString(undefined, { month: 'short' })}</span>
+                              <span className="text-[20px] font-bold">{new Date(book.date).getDate()}</span>
+                            </div>
+                            <div>
+                              <Link to={`/properties/${book.property.id}`} className="font-bold text-on-background hover:text-primary text-lg">
+                                {book.property.title}
+                              </Link>
+                              <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+                                <span className="material-symbols-outlined text-[14px]">location_on</span>
+                                {book.property.address}
+                              </p>
+                              <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+                                <span className="material-symbols-outlined text-[14px]">schedule</span>
+                                {book.timeSlot}
+                              </p>
+                              {book.property.agentId && (
+                                <button
+                                  onClick={() => {
+                                    setActiveTab('messages');
+                                    navigate(`/dashboard?tab=messages&chatUser=${book.property.agentId}`);
+                                  }}
+                                  className="text-xs text-primary hover:underline flex items-center gap-1 mt-2 font-bold"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">chat</span>
+                                  Chat with Seller/Landlord
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className="text-right font-label-md">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              book.status === 'CONFIRMED'
+                                ? 'bg-primary text-on-primary shadow-sm'
+                                : book.status === 'REJECTED'
+                                ? 'bg-error-container text-on-error-container'
+                                : 'bg-surface-container-highest text-on-surface-variant'
+                            }`}>
+                              {book.status}
+                            </span>
+                          </div>
                         </div>
-                        <div>
-                          <Link to={`/properties/${book.property.id}`} className="font-bold text-on-background hover:text-primary text-lg">
-                            {book.property.title}
-                          </Link>
-                          <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
-                            <span className="material-symbols-outlined text-[14px]">location_on</span>
-                            {book.property.address}
-                          </p>
-                          <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
-                            <span className="material-symbols-outlined text-[14px]">schedule</span>
-                            {book.timeSlot}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          book.status === 'CONFIRMED'
-                            ? 'bg-primary text-on-primary shadow-sm'
-                            : book.status === 'REJECTED'
-                            ? 'bg-error-container text-on-error-container'
-                            : 'bg-surface-container-highest text-on-surface-variant'
-                        }`}>
-                          {book.status}
-                        </span>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div className="text-center py-10">
+                      <span className="material-symbols-outlined text-[48px] text-outline mb-2">calendar_today</span>
+                      <p className="text-on-surface-variant font-bold">No viewings scheduled yet.</p>
+                      <Link to="/properties" className="text-primary mt-2 inline-block hover:underline text-sm font-bold">
+                        Schedule a visit now
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="text-center py-16">
-                  <span className="material-symbols-outlined text-[48px] text-outline mb-2">calendar_today</span>
-                  <p className="text-on-surface-variant font-bold">No viewings scheduled yet.</p>
-                  <Link to="/properties" className="text-primary mt-2 inline-block hover:underline text-sm font-bold">
-                    Schedule a visit now
-                  </Link>
+
+                <h3 className="font-title-lg text-title-lg text-on-background mt-8 mb-3">Tours Requested on Your Properties</h3>
+                <div className="bg-surface border border-outline-variant/30 rounded-xl p-6 shadow-sm">
+                  {incomingBookings.length > 0 ? (
+                    <div className="space-y-4">
+                      {incomingBookings.map((book) => (
+                        <div
+                          key={book.id}
+                          className="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant/20 rounded-xl flex-wrap gap-4"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="bg-secondary text-on-secondary w-14 h-14 rounded-lg flex flex-col items-center justify-center shrink-0">
+                              <span className="text-[10px] font-bold uppercase">{new Date(book.date).toLocaleString(undefined, { month: 'short' })}</span>
+                              <span className="text-[20px] font-bold">{new Date(book.date).getDate()}</span>
+                            </div>
+                            <div>
+                              <Link to={`/properties/${book.property.id}`} className="font-bold text-on-background hover:text-primary text-lg">
+                                {book.property.title}
+                              </Link>
+                              <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+                                <span className="material-symbols-outlined text-[14px]">person</span>
+                                Requested by: <span className="font-bold text-on-surface">{book.user?.name}</span> ({book.user?.email})
+                              </p>
+                              <p className="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+                                <span className="material-symbols-outlined text-[14px]">schedule</span>
+                                {book.timeSlot}
+                              </p>
+                              {book.user?.id && (
+                                <button
+                                  onClick={() => {
+                                    setActiveTab('messages');
+                                    navigate(`/dashboard?tab=messages&chatUser=${book.user?.id}`);
+                                  }}
+                                  className="text-xs text-primary hover:underline flex items-center gap-1 mt-2 font-bold"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">chat</span>
+                                  Chat with Buyer/Renter
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              book.status === 'CONFIRMED'
+                                ? 'bg-primary text-on-primary shadow-sm'
+                                : book.status === 'REJECTED'
+                                ? 'bg-error-container text-on-error-container'
+                                : 'bg-surface-container-highest text-on-surface-variant'
+                            }`}>
+                              {book.status}
+                            </span>
+                            {book.status === 'PENDING' && (
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => handleBookingAction(book.id, 'CONFIRMED')}
+                                  className="text-primary hover:underline font-bold text-xs bg-primary/10 border border-primary/20 px-2 py-1 rounded"
+                                >
+                                  Approve
+                                </button>
+                                <button
+                                  onClick={() => handleBookingAction(book.id, 'REJECTED')}
+                                  className="text-error hover:underline font-bold text-xs bg-error-container/10 border border-error/20 px-2 py-1 rounded"
+                                >
+                                  Reject
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-10">
+                      <span className="material-symbols-outlined text-[48px] text-outline mb-2">home_work</span>
+                      <p className="text-on-surface-variant font-bold">No requests received for your listings yet.</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Tab 4: Notifications */}
         {activeTab === 'notifications' && (
@@ -582,6 +734,79 @@ export const UserDashboard: React.FC = () => {
             </div>
           </div>
         )}
+        {/* Tab 6: My Listings */}
+        {activeTab === 'listings' && (
+          <div className="space-y-stack-md">
+            <h2 className="font-headline-lg text-headline-lg text-on-background">My Submitted Listings</h2>
+            <div className="bg-surface border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm max-w-4xl">
+              <table className="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-outline-variant/20 bg-surface-container-low text-on-surface-variant font-label-md">
+                    <th className="p-4">Property Title</th>
+                    <th className="p-4">Type</th>
+                    <th className="p-4">Price / Rent</th>
+                    <th className="p-4">City</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-outline-variant/10 text-on-surface">
+                  {myProperties.length > 0 ? (
+                    myProperties.map((prop) => (
+                      <tr key={prop.id} className="hover:bg-surface-container-lowest transition-colors">
+                        <td className="p-4 font-bold">{prop.title}</td>
+                        <td className="p-4">{prop.type}</td>
+                        <td className="p-4">₹{prop.price.toLocaleString()}</td>
+                        <td className="p-4">{prop.city}</td>
+                        <td className="p-4">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            prop.status === 'APPROVED'
+                              ? 'bg-primary/10 text-primary border border-primary/20'
+                              : prop.status === 'REJECTED'
+                              ? 'bg-error-container text-on-error-container'
+                              : 'bg-surface-container-highest text-on-surface-variant'
+                          }`}>
+                            {prop.status}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right space-x-2">
+                          <button
+                            onClick={() => navigate(`/properties/${prop.id}`)}
+                            className="text-primary hover:underline font-bold"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="p-8 text-center text-on-surface-variant italic">
+                        You haven't submitted any properties yet.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex gap-4">
+              <Link to="/sell" className="bg-primary text-on-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary-container active:scale-95 transition-all">
+                Sell Property
+              </Link>
+              <Link to="/rent/list" className="border border-primary text-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-surface-container transition-all">
+                List a Rental
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'messages' && (
+          <div className="space-y-stack-md">
+            <h2 className="font-headline-lg text-headline-lg text-on-background">Your Inbox</h2>
+            <ChatInterface defaultChatUserId={chatUserId} />
+          </div>
+        )}
+
       </main>
     </div>
   );

@@ -102,7 +102,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, isFavorite
               {property.title}
             </h3>
             <p className="text-primary font-bold text-lg whitespace-nowrap">
-              ${property.price.toLocaleString()}
+              ₹{property.price.toLocaleString()}
             </p>
           </div>
           <p className="font-body-md text-body-md text-on-surface-variant flex items-center gap-1 mb-4">
