@@ -515,49 +515,69 @@ export const UserDashboard: React.FC = () => {
                   {editSuccess}
                 </div>
               )}
-              <form onSubmit={handleUpdateProfile} className="space-y-4">
-                <div className="space-y-1">
-                  <label className="block text-xs font-label-md text-on-surface-variant">Profile Avatar URL</label>
-                  <input
-                    type="text"
-                    value={avatar}
-                    onChange={(e) => setAvatar(e.target.value)}
-                    className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none"
-                    placeholder="https://example.com/avatar.jpg"
-                  />
-                  {avatar && (
-                    <div className="mt-2 flex items-center gap-3">
-                      <img src={avatar} alt="Avatar Preview" className="w-12 h-12 rounded-full object-cover border border-outline-variant/30" />
-                      <span className="text-xs text-outline italic">Avatar preview</span>
+              <form onSubmit={handleUpdateProfile} className="space-y-5">
+                {/* Avatar Section */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-label-md text-on-surface-variant">Profile Avatar</label>
+                  <div className="flex items-center gap-4">
+                    <div className="relative group">
+                      {avatar ? (
+                        <img
+                          src={avatar}
+                          alt="Avatar"
+                          className="w-16 h-16 rounded-2xl object-cover border-2 border-outline-variant/30 shadow-sm"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                          }}
+                        />
+                      ) : null}
+                      <div className={`w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary font-bold text-xl ${avatar ? 'hidden' : ''}`}>
+                        {user?.name?.charAt(0)?.toUpperCase() || '?'}
+                      </div>
                     </div>
-                  )}
+                    <div className="flex-1 space-y-1">
+                      <input
+                        type="text"
+                        value={avatar}
+                        onChange={(e) => setAvatar(e.target.value)}
+                        className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
+                        placeholder="https://example.com/avatar.jpg"
+                      />
+                      <p className="text-[10px] text-outline">Paste an image URL or leave blank for default avatar</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-1">
+
+                <div className="space-y-1.5">
                   <label className="block text-xs font-label-md text-on-surface-variant">Display Name</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none"
+                    className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
                   />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <label className="block text-xs font-label-md text-on-surface-variant">Email Address</label>
                   <input
                     type="email"
                     disabled
                     value={user?.email}
-                    className="w-full bg-background/50 border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-surface-variant cursor-not-allowed"
+                    className="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-3 py-2 text-sm text-outline cursor-not-allowed"
                   />
                   <span className="text-[10px] text-outline">Email address is managed by the system account and cannot be modified.</span>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-label-md hover:bg-primary-container transition-all"
-                >
-                  Save Profile Details
-                </button>
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    className="bg-primary text-on-primary px-6 py-2.5 rounded-xl text-sm font-label-md hover:bg-primary-container hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>save</span>
+                    Save Profile Details
+                  </button>
+                </div>
               </form>
             </div>
           </div>

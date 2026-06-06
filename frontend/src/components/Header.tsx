@@ -23,7 +23,6 @@ export const Header: React.FC = () => {
   const dashboardRoute = () => {
     if (!user) return '/auth/login';
     if (user.role === 'ADMIN') return '/admin-dashboard';
-    if (user.role === 'AGENT') return '/agent-dashboard';
     return '/dashboard';
   };
 
@@ -110,16 +109,7 @@ export const Header: React.FC = () => {
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>person</span>
                     Profile
                   </Link>
-                  {user?.role === 'AGENT' && (
-                    <Link
-                      to="/agent-dashboard?tab=listings"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
-                    >
-                      <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add_home</span>
-                      Create Property
-                    </Link>
-                  )}
+
                   <button
                     onClick={handleLogout}
                     className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-error hover:bg-surface-container-low transition-colors"

@@ -19,7 +19,7 @@ import {
   ResetPasswordPage,
 } from './pages/AuthPages';
 import { UserDashboard } from './pages/Dashboards/UserDashboard';
-import { AgentDashboard } from './pages/Dashboards/AgentDashboard';
+
 import { AdminDashboard } from './pages/Dashboards/AdminDashboard';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { ProfilePage } from './pages/ProfilePage';
@@ -48,7 +48,6 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     // Redirect role violations back to matching role dashboards
     if (user.role === 'ADMIN') return <Navigate to="/admin-dashboard" replace />;
-    if (user.role === 'AGENT') return <Navigate to="/agent-dashboard" replace />;
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -115,19 +114,12 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute allowedRoles={['USER']}>
+              <ProtectedRoute allowedRoles={['USER', 'AGENT']}>
                 <UserDashboard />
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/agent-dashboard"
-            element={
-              <ProtectedRoute allowedRoles={['AGENT']}>
-                <AgentDashboard />
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/admin-dashboard"
             element={

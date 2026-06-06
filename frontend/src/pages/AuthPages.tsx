@@ -20,7 +20,6 @@ export const LoginPage: React.FC = () => {
       if (data.success) {
         const role = data.data.user.role;
         if (role === 'ADMIN') navigate('/admin-dashboard');
-        else if (role === 'AGENT') navigate('/agent-dashboard');
         else navigate('/dashboard');
       }
     } catch (err: any) {
@@ -58,7 +57,6 @@ export const LoginPage: React.FC = () => {
             if (data.success) {
               const role = data.data.user.role;
               if (role === 'ADMIN') navigate('/admin-dashboard');
-              else if (role === 'AGENT') navigate('/agent-dashboard');
               else if (!data.data.user.onboardingCompleted) navigate('/onboarding');
               else navigate('/dashboard');
             }
@@ -172,7 +170,7 @@ export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('USER');
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -181,7 +179,7 @@ export const RegisterPage: React.FC = () => {
     setError('');
     setLoading(true);
     try {
-      const data = await registerUser(name, email, password, role);
+      const data = await registerUser(name, email, password, 'USER');
       if (data.success) {
         navigate('/onboarding');
       }
@@ -240,17 +238,7 @@ export const RegisterPage: React.FC = () => {
               className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none"
             />
           </div>
-          <div className="space-y-1">
-            <label className="block text-xs font-label-md text-on-surface-variant">Select Role</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-background focus:outline-none"
-            >
-              <option value="USER">Home Buyer / seeker</option>
-              <option value="AGENT">Real Estate Agent</option>
-            </select>
-          </div>
+
           <button
             type="submit"
             disabled={loading}

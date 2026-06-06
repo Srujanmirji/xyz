@@ -69,7 +69,6 @@ export const OnboardingPage: React.FC = () => {
       setTimeout(() => {
         const role = user?.role;
         if (role === 'ADMIN') navigate('/admin-dashboard');
-        else if (role === 'AGENT') navigate('/agent-dashboard');
         else navigate('/dashboard');
       }, 1500);
     } catch {
@@ -400,7 +399,7 @@ export const OnboardingPage: React.FC = () => {
           </AnimatePresence>
 
           {/* Navigation buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-outline-variant/15">
+          <div className={`flex items-center mt-8 pt-6 border-t border-outline-variant/15 ${step === 2 ? 'justify-center' : 'justify-between'}`}>
             {step > 0 && step < 2 ? (
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -410,9 +409,9 @@ export const OnboardingPage: React.FC = () => {
               >
                 Back
               </motion.button>
-            ) : (
+            ) : step < 2 ? (
               <div />
-            )}
+            ) : null}
 
             {step === 0 && (
               <motion.button
@@ -433,8 +432,8 @@ export const OnboardingPage: React.FC = () => {
                 onClick={goNext}
                 className="px-6 py-2.5 bg-primary text-on-primary rounded-xl text-sm font-label-md hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-1.5"
               >
-                Finish Setup
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>check</span>
+                Continue
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
               </motion.button>
             )}
 

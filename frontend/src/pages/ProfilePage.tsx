@@ -187,12 +187,10 @@ export const ProfilePage: React.FC = () => {
                   className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md ${
                     user?.role === 'ADMIN'
                       ? 'bg-error/10 text-error'
-                      : user?.role === 'AGENT'
-                        ? 'bg-tertiary/10 text-tertiary'
-                        : 'bg-primary/10 text-primary'
+                      : 'bg-primary/10 text-primary'
                   }`}
                 >
-                  {user?.role}
+                  {user?.role === 'USER' ? 'Member' : user?.role}
                 </span>
                 <span className="text-xs text-outline">•</span>
                 <span className="text-xs text-on-surface-variant flex items-center gap-1">
