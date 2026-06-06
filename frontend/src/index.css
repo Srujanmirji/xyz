@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 250 100% 99%; /* #faf8ff */
+    --on-background: 231 17% 12%; /* #191b23 */
+    --surface: 250 100% 99%; /* #faf8ff */
+    --on-surface: 231 17% 12%; /* #191b23 */
+    --on-surface-variant: 231 12% 30%; /* #434655 */
+    
+    --surface-container-lowest: 0 0% 100%; /* #ffffff */
+    --surface-container-low: 240 70% 98%; /* #f3f3fe */
+    --surface-container: 240 30% 95%; /* #ededf9 */
+    --surface-container-high: 240 25% 93%; /* #e7e7f3 */
+    --surface-container-highest: 235 20% 91%; /* #e1e2ed */
+    
+    --primary: 218 100% 39%; /* #004ac6 */
+    --on-primary: 0 0% 100%; /* #ffffff */
+    --primary-container: 221 83% 53%; /* #2563eb */
+    --on-primary-container: 233 100% 97%; /* #eeefff */
+    
+    --secondary: 216 19% 39%; /* #505f76 */
+    --on-secondary: 0 0% 100%; /* #ffffff */
+    --secondary-container: 215 84% 90%; /* #d0e1fb */
+    --on-secondary-container: 214 18% 41%; /* #54647a */
+    
+    --outline: 231 7% 49%; /* #737686 */
+    --outline-variant: 231 20% 80%; /* #c3c6d7 */
+    
+    --tertiary: 22 100% 29%; /* #943700 */
+    --on-tertiary: 0 0% 100%; /* #ffffff */
+    --tertiary-container: 23 100% 37%; /* #bc4800 */
+    --on-tertiary-container: 16 100% 95%; /* #ffede6 */
+    
+    --error: 0 76% 42%; /* #ba1a1a */
+    --on-error: 0 0% 100%; /* #ffffff */
+    --error-container: 0 100% 92%; /* #ffdad6 */
+    --on-error-container: 0 100% 29%; /* #93000a */
+  }
+
+  .dark {
+    --background: 221 54% 10%; /* #0b1326 */
+    --on-background: 227 91% 93%; /* #dae2fd */
+    --surface: 221 54% 10%; /* #0b1326 */
+    --on-surface: 227 91% 93%; /* #dae2fd */
+    --on-surface-variant: 230 15% 80%; /* #c2c6d6 */
+    
+    --surface-container-lowest: 222 68% 7%; /* #060e20 */
+    --surface-container-low: 221 41% 13%; /* #131b2e */
+    --surface-container: 222 37% 15%; /* #171f33 */
+    --surface-container-high: 222 28% 19%; /* #222a3d */
+    --surface-container-highest: 226 23% 23%; /* #2d3449 */
+    
+    --primary: 221 100% 84%; /* #adc6ff */
+    --on-primary: 214 100% 21%; /* #002e6a */
+    --primary-container: 218 100% 65%; /* #4d8eff */
+    --on-primary-container: 214 100% 18%; /* #00285d */
+    
+    --secondary: 219 32% 80%; /* #bcc7de */
+    --on-secondary: 216 27% 21%; /* #263143 */
+    --secondary-container: 219 20% 30%; /* #3e495d */
+    --on-secondary-container: 219 29% 81%; /* #aeb9d0 */
+    
+    --outline: 231 8% 59%; /* #8c909f */
+    --outline-variant: 225 12% 29%; /* #424754 */
+    
+    --tertiary: 24 100% 76%; /* #ffb786 */
+    --on-tertiary: 27 100% 16%; /* #502400 */
+    --tertiary-container: 28 85% 47%; /* #df7412 */
+    --on-tertiary-container: 26 100% 14%; /* #461f00 */
+    
+    --error: 6 100% 83%; /* #ffb4ab */
+    --on-error: 357 100% 21%; /* #690005 */
+    --error-container: 356 100% 29%; /* #93000a */
+    --on-error-container: 4 100% 92%; /* #ffdad6 */
+  }
+
+  body {
+    @apply bg-background text-on-background font-geist antialiased selection:bg-primary-container selection:text-on-primary-container;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.dark .glass-effect {
+  backdrop-filter: blur(12px);
+  background: rgba(23, 31, 51, 0.75);
+}
+
+.transition-standard {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--outline-variant) / 0.5);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--outline));
+}

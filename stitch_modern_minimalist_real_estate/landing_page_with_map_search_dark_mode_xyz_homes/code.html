@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb786",
+                    "primary": "#adc6ff",
+                    "secondary": "#bcc7de",
+                    "outline": "#8c909f",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-primary-container": "#00285d",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-container-lowest": "#060e20",
+                    "tertiary-container": "#df7412",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-background": "#dae2fd",
+                    "tertiary": "#ffb786",
+                    "inverse-primary": "#005ac2",
+                    "surface-container": "#171f33",
+                    "on-tertiary-fixed": "#311400",
+                    "error-container": "#93000a",
+                    "on-primary-fixed": "#001a42",
+                    "background": "#0b1326",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "on-tertiary": "#502400",
+                    "inverse-on-surface": "#283044",
+                    "on-surface-variant": "#c2c6d6",
+                    "primary-container": "#4d8eff",
+                    "outline-variant": "#424754",
+                    "surface": "#0b1326",
+                    "on-secondary": "#263143",
+                    "on-error": "#690005",
+                    "on-secondary-fixed": "#111c2d",
+                    "surface-dim": "#0b1326",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-bright": "#31394d",
+                    "surface-container-highest": "#2d3449",
+                    "surface-container-low": "#131b2e",
+                    "inverse-surface": "#dae2fd",
+                    "secondary-container": "#3e495d",
+                    "on-primary": "#002e6a",
+                    "on-surface": "#dae2fd",
+                    "surface-container-high": "#222a3d",
+                    "on-secondary-container": "#aeb9d0",
+                    "on-primary-fixed-variant": "#004395",
+                    "surface-variant": "#2d3449",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-container": "#461f00",
+                    "error": "#ffb4ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Geist"],
+                    "body-md": ["Geist"],
+                    "body-lg": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "label-md": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "label-caps": ["Geist"],
+                    "map-price-tag": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "map-price-tag": ["14px", {"lineHeight": "18px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+        .property-card-hover:hover .image-zoom { transform: scale(1.05); }
+        .image-zoom { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b1326; }
+        ::-webkit-scrollbar-thumb { background: #171f33; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #222a3d; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-md border-b border-outline-variant/10 h-20 transition-colors duration-300">
+<div class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-12">
+<a class="font-display-lg text-headline-lg tracking-tighter text-primary" href="#">ESTATE</a>
+<div class="hidden md:flex gap-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Land</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Properties</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Map Search</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Insights</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="font-body-md text-body-md text-on-surface hover:text-primary transition-colors">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 font-label-caps text-label-sm tracking-widest rounded-lg scale-95 active:scale-90 transition-all hover:shadow-[0_0_20px_rgba(173,198,255,0.3)]">SELL LAND</button>
+</div>
+</div>
+</nav>
+<!-- Hero / Map Discovery Section -->
+<section class="relative h-screen w-full overflow-hidden bg-surface-dim">
+<div class="absolute inset-0 z-0">
+<img alt="Interactive Map Overview" class="w-full h-full object-cover grayscale-[40%] brightness-50 opacity-80" data-location="Aspen, Colorado" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWxHrxJ0LzR5hvn8All2eiTY8GaOj11b91kzIAvFYJEJO6t4ekX106vG9aDgWRz2QioACu1ZWnwvuOHaXVn1rdErSLM8KfCI76bBvkZK1GR-dkvkrUm5nhs7h2Gkbq_-ZTed_9T1KSD9g7ILJDW9YBr61cCS7_wzFmynqJpO3o_Z9H3xVkPoAKCeLj-35bQ_LPBt3drCcW15L9SnZcn3Zo-gi54Vv6Zuac1Z5uA6pISZWo2Zqqck1e3dwgT40GxjPpsrhIayI-vvc"/>
+<div class="absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background"></div>
+</div>
+<!-- Map UI Elements -->
+<div class="absolute inset-0 z-10 pointer-events-none">
+<div class="max-w-container-max mx-auto px-margin-desktop pt-32 h-full flex flex-col justify-between pb-16">
+<!-- Search Interface -->
+<div class="w-full max-w-xl pointer-events-auto">
+<div class="bg-surface-container/80 backdrop-blur-md p-2 flex items-center border border-outline-variant/20 shadow-2xl rounded-xl">
+<span class="material-symbols-outlined px-4 text-outline" data-icon="search">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-outline" placeholder="Search by region, zoning, or acreage..." type="text"/>
+<button class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-sm rounded-lg hover:brightness-110 transition-all">EXPLORE</button>
+</div>
+<div class="flex gap-3 mt-4">
+<span class="px-4 py-1.5 bg-surface-container-high/60 backdrop-blur-sm border border-outline-variant/20 rounded-full font-label-sm text-on-surface-variant pointer-events-auto cursor-pointer hover:bg-primary/20 hover:text-primary transition-colors">RESIDENTIAL LAND</span>
+<span class="px-4 py-1.5 bg-surface-container-high/60 backdrop-blur-sm border border-outline-variant/20 rounded-full font-label-sm text-on-surface-variant pointer-events-auto cursor-pointer hover:bg-primary/20 hover:text-primary transition-colors">AGRICULTURAL</span>
+<span class="px-4 py-1.5 bg-surface-container-high/60 backdrop-blur-sm border border-outline-variant/20 rounded-full font-label-sm text-on-surface-variant pointer-events-auto cursor-pointer hover:bg-primary/20 hover:text-primary transition-colors">DEVELOPMENT SITES</span>
+</div>
+</div>
+<!-- Headline Anchor -->
+<div class="max-w-2xl">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-4 leading-tight">Curated Land <br/>&amp; Premium Estates.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Discover ultra-high-end property holdings and exclusive land opportunities across the world's most desirable locations.</p>
+</div>
+</div>
+</div>
+<!-- Map Markers (Simulated) -->
+<div class="absolute top-1/2 left-2/3 z-20 pointer-events-auto group cursor-pointer">
+<div class="bg-surface-container-highest border border-primary/50 rounded px-3 py-1.5 shadow-lg transition-all group-hover:bg-primary group-hover:text-on-primary group-hover:border-primary">
+<span class="font-map-price-tag text-map-price-tag">$4.2M</span>
+</div>
+</div>
+<div class="absolute top-1/3 left-1/2 z-20 pointer-events-auto group cursor-pointer">
+<div class="bg-surface-container-highest border border-primary/50 rounded px-3 py-1.5 shadow-lg transition-all group-hover:bg-primary group-hover:text-on-primary group-hover:border-primary">
+<span class="font-map-price-tag text-map-price-tag">$12.5M</span>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute right-margin-desktop bottom-16 flex flex-col gap-2 z-20">
+<button class="w-12 h-12 bg-surface-container border border-outline-variant/20 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high hover:text-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-12 h-12 bg-surface-container border border-outline-variant/20 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high hover:text-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<button class="w-12 h-12 bg-surface-container border border-outline-variant/20 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high hover:text-primary transition-colors shadow-lg mt-4">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+</button>
+</div>
+</section>
+<!-- Featured Land Listings -->
+<section class="py-24 bg-background">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex justify-between items-end mb-16">
+<div>
+<span class="font-label-sm text-label-sm text-primary block mb-4 uppercase tracking-[0.2em]">Curated Inventory</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Premium Land Holdings</h2>
+</div>
+<a class="font-label-sm text-label-sm border-b border-primary pb-1 text-on-surface-variant hover:text-primary hover:border-primary transition-all" href="#">VIEW ALL LAND</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Land Card 1 -->
+<div class="group cursor-pointer property-card-hover bg-surface-container-low rounded-xl p-4 transition-colors hover:bg-surface-container">
+<div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-container-highest mb-6">
+<img class="w-full h-full object-cover image-zoom opacity-90 group-hover:opacity-100 transition-opacity" data-alt="An expansive, high-altitude alpine meadow at sunset, featuring lush green grasses and scattered wildflowers under a dramatic purple and gold sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAChXYOD-gkWd9RouaM-C28OJTwgXlIhHp2gXQFI3EuWiSY6uKy6TgyyTODdLE6xQM21OnKrLeL5GmoMdxu3Oi4_mE8URJ72-sbpA_-TvqMjRdp5T9Wr_-zaoEqiX30IMWgC-s3RVRoMI4xvGT6I11-_oAwGZmCwr5XwxGU_7jJT0VmeOifplpbvBIV6vUHUu3dHt17v7L_bPwDKKGLEgZuvcaMovgJ3RBURxnp01Bdlot805vSjaLc9gr5bkQc5KyQ2LJRQ45Ru7I"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded text-on-surface font-label-sm text-[10px]">420 ACRES</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Summit Ridge Plateau</h3>
+<span class="font-body-md text-body-md font-bold text-primary">$6,400,000</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">Telluride, Colorado</p>
+<div class="pt-4 flex gap-6 border-t border-outline-variant/10">
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Zoning</p><p class="font-body-md text-body-md font-bold text-on-surface">Residential/Ag</p></div>
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Utilities</p><p class="font-body-md text-body-md font-bold text-on-surface">On-site</p></div>
+</div>
+</div>
+</div>
+<!-- Land Card 2 -->
+<div class="group cursor-pointer property-card-hover bg-surface-container-low rounded-xl p-4 transition-colors hover:bg-surface-container">
+<div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-container-highest mb-6">
+<img class="w-full h-full object-cover image-zoom opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A pristine coastal bluff overlooking a turquoise ocean, with golden dry grass waving in the sea breeze under a clear, bright midday sun." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfoOtePJle_eG-6noaVNtC_dDb9Zcl4VKt41QD8NTsv0aQvOKMUxOmIWsnKrERu1MvDPAgbc7NBPkC2XuPjVJEfLVsF1XFUoQWsVUYw29WeqRsFvn0Qft8bmT4vMoE2NQpgrZpc5824R2mfbMCQr_BN7GVrPmmF5dBrNoEr2JvP4lUr7DEhztowrQjftb-LJdm92U66UScGSgFewYEZwNNYR7aMcr71tB1gbZnY10JqUA6ju7bGO6PrRpsgBOTOKGq2PNPEovNVPQ"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded text-on-surface font-label-sm text-[10px]">12 ACRES</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Azure Coast Bluffs</h3>
+<span class="font-body-md text-body-md font-bold text-primary">$18,200,000</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">Big Sur, California</p>
+<div class="pt-4 flex gap-6 border-t border-outline-variant/10">
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Zoning</p><p class="font-body-md text-body-md font-bold text-on-surface">Estate</p></div>
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Access</p><p class="font-body-md text-body-md font-bold text-on-surface">Private Gated</p></div>
+</div>
+</div>
+</div>
+<!-- Land Card 3 -->
+<div class="group cursor-pointer property-card-hover bg-surface-container-low rounded-xl p-4 transition-colors hover:bg-surface-container">
+<div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-container-highest mb-6">
+<img class="w-full h-full object-cover image-zoom opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A vast expanse of rolling golden hills dotted with ancient oak trees during the late afternoon golden hour." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTdJrumPziM1OSKaPrTQEdeu5ucAaQb9_PHE7D0-XVSj1ncdGq5dCGjSLQWA7ItJI-S7ojHb6QNsHGdMFGeXHhZ7EhLvONCrs2r7E4yXGIoc5TsBMJQTfBd5lUSspVuhBr-LqyJpEmyD7kqL089KVfs27Xf3rntJG8WmVTQliRTd-FCU-DFyKFTGWF0DQVlN9IWCvKOZkDVBPvHkSvCycZXLJZBgw3ZSVmiD8hovUOb4QFFzUvfbhtoybsmqVys2mzimw0HSeCkiU"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded text-on-surface font-label-sm text-[10px]">1,200 ACRES</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Heritage Oaks Ranch</h3>
+<span class="font-body-md text-body-md font-bold text-primary">$9,850,000</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">Santa Ynez, California</p>
+<div class="pt-4 flex gap-6 border-t border-outline-variant/10">
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Zoning</p><p class="font-body-md text-body-md font-bold text-on-surface">Agriculture</p></div>
+<div><p class="font-label-sm text-[10px] text-outline uppercase">Water</p><p class="font-body-md text-body-md font-bold text-on-surface">3 Wells</p></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- New Properties Bento Grid -->
+<section class="py-24 bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="mb-16">
+<span class="font-label-sm text-label-sm text-primary block mb-4 uppercase tracking-[0.2em]">New Arrivals</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Exclusive Estates</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-gutter h-[800px]">
+<!-- Main Feature -->
+<div class="md:col-span-7 md:row-span-2 group relative overflow-hidden bg-surface-container cursor-pointer rounded-xl">
+<img class="w-full h-full object-cover image-zoom opacity-80" data-alt="A modern architectural masterpiece featuring clean lines, massive floor-to-ceiling glass walls, and natural stone textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAyp_GzhMiEdFAbsunGETAdUFerlu0lQi8DLfja0pNf5MRDUJdSXrBIizUimXpZXnT8_8e6u-28ul5B_z8ye0C4mEREg04qriSlKrb4zm_fcfB4-3QS7xy116se_IWXRVDlfYtaKWCV4bV408dqLgx0qBX9EUC-enRNVyRloEAFvUuqIsBV68q0oadXiahfcaQbfUs4u2Mg0UT5zBtQaK5mQ2zTHQ8AGDH9Rhtqn5UhEI95aXyJWa80Yz3ETd6n_I_OY9mb6VRqtk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-on-surface">
+<span class="font-label-sm text-label-sm text-primary mb-2 block font-bold">JUST LISTED</span>
+<h3 class="font-display-lg text-headline-xl text-on-surface mb-2">The Glass Pavilion</h3>
+<p class="font-body-md text-on-surface-variant">Beverly Hills, CA — $24,500,000</p>
+</div>
+</div>
+<!-- Secondary 1 -->
+<div class="md:col-span-5 group relative overflow-hidden bg-surface-container cursor-pointer rounded-xl">
+<img class="w-full h-full object-cover image-zoom opacity-70" data-alt="An ultra-luxury minimalist bathroom and master suite with panoramic views of a city skyline at dusk." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADG9LRQm3c3vgLiuS8S8p3rWGf8vgo91m1rTxZywzUM89MEdWiTtWWogXpkvI8aVzxu3iMp9zw80rdFIEMWBRvHeLpQ3UTxVPskf1wNV_ONjVM7w8JF_0mofpW9gEF2fpvMWkEtnFPqjah3x9jz5x8GksY1yfBK7v6qe0qnFBfBttW4RoxSdQFesBCYST7dLns8hcJ_unoGpmqvhVTCIMwHBgS5ZULZs_faGWeLdU4mNnW8f41AaXFhSNJSg8GwXVfUnuccyPr-Kk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-on-surface">
+<h3 class="font-headline-md text-headline-md">Obsidian Penthouse</h3>
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest">MANHATTAN, NY</p>
+</div>
+</div>
+<!-- Secondary 2 -->
+<div class="md:col-span-5 group relative overflow-hidden bg-surface-container cursor-pointer rounded-xl">
+<img class="w-full h-full object-cover image-zoom opacity-70" data-alt="An expansive infinity pool that seems to merge with the dark blue ocean at sunset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_60Wb01mYz1MIo0T59tGx5e9br8BUwDCFt1fEorNQG3P5m-n7UJ4ryWPfj4zyx2epdAtEf7CthLVzAXVb7tKxJkPByDrDiRKzToGZkhLdSv7Eg9l6N_fJc5o4oKGYvr2gMG4bLL05nUXUhxL7Ib9rgPWB_ALyN0Rk8gXTdEV_B2eJKTyQA8-qGiUCtI_cX9Y81mZFH0-1VzYKlY31i-fZOFrWMClZ8NwDO0eHARHa3mmJ2mMZTzEl0DbK_kJNTJUUY6mtH3-rb8I"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-on-surface">
+<h3 class="font-headline-md text-headline-md">Cala Di Volpe Villa</h3>
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest">SARDINIA, ITALY</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-background border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="mb-8 md:mb-0">
+<a class="font-display-lg text-headline-lg text-primary" href="#">ESTATE</a>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">© 2024 Estate Land Holdings. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Zoning Guides</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Market Reports</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+    // Simple scroll effect for the transparent navbar
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 50) {
+            nav.classList.add('bg-background/95');
+            nav.classList.add('shadow-xl');
+            nav.classList.remove('bg-transparent');
+        } else {
+            nav.classList.remove('bg-background/95');
+            nav.classList.remove('shadow-xl');
+            nav.classList.add('bg-transparent');
+        }
+    });
+</script>
+</body></html>
