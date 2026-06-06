@@ -12,6 +12,8 @@ export interface Property {
   city: string;
   state: string;
   country: string;
+  latitude: number;
+  longitude: number;
   bedrooms: number;
   bathrooms: number;
   area: number;

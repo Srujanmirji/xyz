@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { MapView } from '../components/MapView';
 
 const AVATAR_OPTIONS = [
   'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
@@ -27,6 +28,7 @@ export const ProfilePage: React.FC = () => {
   const [bio, setBio] = useState(user?.bio || '');
   const [location, setLocation] = useState(user?.location || '');
   const [avatar, setAvatar] = useState(user?.avatar || '');
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   // Security state
   const [currentPassword, setCurrentPassword] = useState('');
@@ -294,9 +296,9 @@ export const ProfilePage: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-1.5 sm:col-span-2">
                       <label className="block text-xs font-label-md text-on-surface-variant">Location</label>
-                      <div className="relative">
+                      <div className="relative mb-2">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" style={{ fontSize: 16 }}>
                           location_on
                         </span>
@@ -304,10 +306,19 @@ export const ProfilePage: React.FC = () => {
                           type="text"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
-                          placeholder="e.g. New York, NY"
-                          className="w-full bg-background border border-outline-variant/30 rounded-xl pl-9 pr-3 py-2.5 text-sm text-on-background focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
+                          placeholder="Click the map or use auto-detect"
+                          readOnly
+                          className="w-full bg-background border border-outline-variant/30 rounded-xl pl-9 pr-3 py-2.5 text-sm text-on-background cursor-default"
                         />
                       </div>
+                      <MapView
+                        mode="picker"
+                        selectedLocation={userCoords}
+                        onLocationSelect={(lat, lng, address) => {
+                          setUserCoords({ lat, lng });
+                          if (address) setLocation(address);
+                        }}
+                      />
                     </div>
                   </div>
 

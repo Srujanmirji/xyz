@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { MortgageCalculator } from '../components/MortgageCalculator';
+import { MapView } from '../components/MapView';
 
 interface PropertyDetail {
   id: string;
@@ -15,6 +16,8 @@ interface PropertyDetail {
   country: string;
   bedrooms: number;
   bathrooms: number;
+  latitude: number;
+  longitude: number;
   area: number;
   type: string;
   status: string;
@@ -222,6 +225,22 @@ export const PropertyDetailPage: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Property Location Map */}
+          <div className="space-y-stack-sm">
+            <h2 className="font-headline-md text-headline-md text-on-background">Location</h2>
+            <MapView
+              mode="static"
+              latitude={property.latitude}
+              longitude={property.longitude}
+              label={`${property.title} — ${property.address}, ${property.city}`}
+              className="h-[320px]"
+            />
+            <p className="text-xs text-on-surface-variant flex items-center gap-1">
+              <span className="material-symbols-outlined text-[14px] text-primary">location_on</span>
+              {property.address}, {property.city}, {property.state}, {property.country}
+            </p>
           </div>
 
           {/* Gallery Slider if multiple images exist */}

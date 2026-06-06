@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { PropertyCard, type Property } from '../components/PropertyCard';
+import { MapView } from '../components/MapView';
 
 export const PropertyListingPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -240,53 +241,28 @@ export const PropertyListingPage: React.FC = () => {
 
         {/* Right Side: Map search panel */}
         {showMap && (
-          <div className="hidden md:block flex-1 sticky top-[136px] h-[calc(100vh-136px)] bg-surface-container-low border-l border-outline-variant/30 overflow-hidden">
-            {/* Interactive Mock Map Canvas */}
-            <div className="w-full h-[65%] bg-surface-container-high relative flex items-center justify-center overflow-hidden">
-              {/* Map grids/topography simulation */}
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#fff_1px,transparent_1px)]"></div>
-              
-              {/* Map search suggestions / Directions indicator */}
-              <div className="absolute top-4 left-4 right-4 z-10 flex gap-2">
-                <div className="bg-surface/90 backdrop-blur-md px-4 py-2 rounded-lg border border-outline-variant/30 flex items-center gap-2 text-xs flex-grow max-w-sm">
-                  <span className="material-symbols-outlined text-primary text-[16px]">navigation</span>
-                  <span className="text-on-background line-clamp-1">
-                    {selectedProperty
-                      ? `Directions to ${selectedProperty.address}`
-                      : 'Select a property to get details'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Property pins rendering */}
-              {properties.map((prop, idx) => {
-                // Generate a pseudo-random position on the map canvas
-                const leftPercent = 20 + ((idx * 27) % 60);
-                const topPercent = 20 + ((idx * 33) % 60);
-
-                const isSelected = selectedProperty?.id === prop.id;
-
-                return (
-                  <button
-                    key={prop.id}
-                    onClick={() => setSelectedProperty(prop)}
-                    style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
-                    className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex items-center gap-1 px-3 py-1.5 rounded-full shadow-lg border transition-all duration-300 ${
-                      isSelected
-                        ? 'bg-primary text-on-primary scale-110 z-10 border-primary'
-                        : 'bg-surface text-on-background hover:bg-surface-container border-outline-variant/50'
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-[16px]">home</span>
-                    <span className="text-xs font-bold font-geist">${(prop.price / 1000000).toFixed(1)}M</span>
-                  </button>
-                );
-              })}
-
-              <span className="text-outline text-xs absolute bottom-4 right-4 bg-surface/80 px-2 py-1 rounded">
-                Interactive Map Exploration
-              </span>
-            </div>
+          <div className="hidden md:flex flex-col flex-1 sticky top-[136px] h-[calc(100vh-136px)] bg-surface-container-low border-l border-outline-variant/30 overflow-hidden">
+            {/* Real Leaflet Map */}
+            <MapView
+              mode="display"
+              properties={properties.map((p) => ({
+                id: p.id,
+                title: p.title,
+                address: p.address,
+                city: p.city,
+                price: p.price,
+                latitude: p.latitude,
+                longitude: p.longitude,
+                type: p.type,
+                bedrooms: p.bedrooms,
+              }))}
+              selectedPropertyId={selectedProperty?.id}
+              onPropertySelect={(mapProp) => {
+                const full = properties.find((p) => p.id === mapProp.id);
+                if (full) setSelectedProperty(full);
+              }}
+              className="flex-1"
+            />
 
             {/* Selected Property Details Context (Schools, Hospitals, Restaurants) */}
             <div className="h-[35%] p-6 border-t border-outline-variant/30 overflow-y-auto bg-surface flex flex-col justify-between">
