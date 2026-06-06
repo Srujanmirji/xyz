@@ -323,30 +323,6 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-stack-lg bg-primary-container text-on-primary-container text-center">
-        <div className="max-w-3xl mx-auto px-gutter">
-          <h2 className="font-headline-lg text-headline-lg mb-stack-md">Ready to start your journey?</h2>
-          <p className="font-body-lg text-body-lg mb-stack-lg opacity-90">
-            Our expert agents are standing by to help you find your next home.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate('/properties')}
-              className="bg-white text-primary font-label-md text-label-md px-8 py-4 rounded-lg shadow-lg hover:bg-surface-bright transition-all active:scale-95"
-            >
-              Browse Listings
-            </button>
-            <button
-              onClick={() => navigate('/contact')}
-              className="bg-transparent border border-white/30 text-white font-label-md text-label-md px-8 py-4 rounded-lg hover:bg-white/10 transition-all active:scale-95"
-            >
-              Contact an Agent
-            </button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
