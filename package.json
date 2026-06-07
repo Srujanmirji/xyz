@@ -1,0 +1,14 @@
+{
+  "name": "xyz-homes-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build:frontend": "npm run build --workspace=frontend",
+    "prisma:generate": "npm run prisma:generate --workspace=backend",
+    "build": "npm run prisma:generate && npm run build:frontend"
+  }
+}

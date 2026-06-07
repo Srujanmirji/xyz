@@ -50,9 +50,13 @@ app.get('/health', (req, res) => {
 app.use(errorHandler);
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(`🚀 XYZ Homes Server Running on Port: ${PORT}`);
-  console.log(`📡 API endpoint: http://localhost:${PORT}/api`);
-  console.log(`===============================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`===============================================`);
+    console.log(`🚀 XYZ Homes Server Running on Port: ${PORT}`);
+    console.log(`📡 API endpoint: http://localhost:${PORT}/api`);
+    console.log(`===============================================`);
+  });
+}
+
+export default app;
